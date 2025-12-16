@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nadchodzące wydarzenia</title>
+    <link rel="stylesheet" th:href="@{/css/events-list.css}">
+</head>
+<body>
+<h1>Nadchodzące wydarzenia</h1>
+
+<div class="events-grid" th:if="${events != null and !events.events().isEmpty()}">
+    <div class="event-card" th:each="event : ${events.events()}">
+        <div th:if="${event != null}">
+            <img th:if="${event.imageUrl() != null}"
+                 th:src="${event.imageUrl()}"
+                 th:alt="${event.name()}"
+                 class="event-image">
+
+            <div class="event-content" th:if="${event != null}">
+                <div class="event-name" th:text="${event.name()}">Event Name</div>
+                <div class="event-date" th:text="${#temporals.format(event.date(), 'dd.MM.yyyy HH:mm')}">Date</div>
+                <div class="event-location" th:text="${event.location()}">Location</div>
+                <div class="event-description" th:text="${event.description()}">Description</div>
+                <div class="event-price" th:if="${event.ticketLowestPrice() != null}">
+                    Od <span th:text="${event.ticketLowestPrice()}">0.00</span> PLN
+                </div>
+                <div class="event-price" th:if="${event.ticketLowestPrice() == null}">
+                    Brak dostępnych biletów
+                </div>
+                <a th:href="@{/events/details/{id}(id=${event.publicId()})}" class="event-link">Zobacz szczegóły</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="no-events" th:if="${events == null or events.events().isEmpty()}">
+    Brak nadchodzących wydarzeń.
+</div>
+</body>
+</html>

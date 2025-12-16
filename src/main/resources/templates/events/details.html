@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${event.name()}">Event Details</title>
+    <link rel="stylesheet" th:href="@{/css/events-details.css}">
+</head>
+<body>
+    <a href="/events/list" class="back-link">← Powrót do wydarzeń</a>
+
+    <div class="event-container">
+        <div class="event-header">
+            <img th:if="${event.imageUrl() != null and event.imageUrl() != ''}"
+                 th:src="${event.imageUrl()}"
+                 th:alt="${event.name()}"
+                 class="event-image">
+        </div>
+
+        <div class="event-content">
+            <h1 class="event-name" th:text="${event.name()}">Event Name</h1>
+
+            <div class="event-info">
+                <div class="info-item">
+                    <span class="info-label">📅 Date:</span>
+                    <span class="info-value" th:text="${#temporals.format(event.date(), 'dd.MM.yyyy HH:mm')}">Date</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">📍 Location:</span>
+                    <span class="info-value" th:text="${event.location()}">Location</span>
+                </div>
+            </div>
+
+            <div class="event-description" th:text="${event.description()}">
+                Event Description
+            </div>
+
+            <div class="tickets-section">
+                <h2 class="section-title">Dostępne bilety</h2>
+
+                <div class="tickets-grid" th:if="${event.tickets() != null and !event.tickets().isEmpty()}">
+                    <div class="ticket-card"
+                         th:each="ticket : ${event.tickets()}"
+                         th:classappend="${ticket.status().toString().toLowerCase()}">
+                        <div class="ticket-header">
+                            <span class="ticket-number" th:text="${ticket.ticketNumber()}">TKT-001</span>
+                            <span class="ticket-category"
+                                  th:classappend="${ticket.category().toString().toLowerCase()}"
+                                  th:text="${ticket.category()}">STANDARD</span>
+                        </div>
+                        <div class="ticket-price">
+                            <span th:text="${ticket.price()} + ' PLN'">0.00 PLN</span>
+                            <span class="ticket-discount"
+                                  th:if="${ticket.originalPrice() != null and ticket.price().compareTo(ticket.originalPrice()) < 0}"
+                                  th:text="'-' + ${T(java.lang.Math).round((1 - ticket.price().doubleValue() / ticket.originalPrice().doubleValue()) * 100)} + '%'">
+                                -20%
+                            </span>
+                        </div>
+                        <div class="ticket-original-price"
+                             th:if="${ticket.originalPrice() != null and ticket.price().compareTo(ticket.originalPrice()) < 0}"
+                             th:text="'Cena Oryginalna: ' + ${ticket.originalPrice()} + ' PLN'">
+                            Original: 119.99 PLN
+                        </div>
+                        <span class="ticket-status"
+                              th:classappend="${ticket.status().toString().toLowerCase()}"
+                              th:text="${ticket.status()}">AVAILABLE</span>
+                    </div>
+                </div>
+
+                <div class="no-tickets" th:if="${event == null or event.tickets() == null or event.tickets().isEmpty()}">
+                    Brak dostępnych biletów na to wydarzenie.
+                </div>
+            </div>
+
+            <div class="add-ticket-section">
+                <h2 class="section-title">Dodaj nowy bilet</h2>
+                <form th:action="@{/events/{id}/tickets(id=${event.publicId()})}"
+                      method="post"
+                      class="add-ticket-form">
+                    <div class="form-group">
+                        <label for="price" class="form-label">Cena (PLN)</label>
+                        <input type="number"
+                               id="price"
+                               name="price"
+                               step="0.01"
+                               min="0.01"
+                               required
+                               class="form-input"
+                               placeholder="99.99">
+                    </div>
+                    <div class="form-group">
+                        <label for="originalPrice" class="form-label">Cena oryginalna (PLN)</label>
+                        <input type="number"
+                               id="originalPrice"
+                               name="originalPrice"
+                               step="0.01"
+                               min="0.01"
+                               class="form-input"
+                               placeholder="119.99">
+                    </div>
+                    <div class="form-group">
+                        <label for="ticketNumber" class="form-label">Numer biletu</label>
+                        <input type="text"
+                               id="ticketNumber"
+                               name="ticketNumber"
+                               required
+                               pattern=".*\S+.*"
+                               title="Numer biletu nie moze byc pusty"
+                               class="form-input"
+                               placeholder="TKT-001">
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="form-label">Kategoria</label>
+                        <select id="category"
+                                name="category"
+                                required
+                                class="form-input">
+                            <option value="STANDARD">Standard</option>
+                            <option value="VIP">VIP</option>
+                            <option value="PREMIUM">Premium</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-button">Dodaj bilet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
