@@ -7,11 +7,13 @@ import alebilet.rekrutacja.market.events.api.dto.DetailedEventDto;
 import alebilet.rekrutacja.market.events.api.dto.MinimalEventsDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 class EventService implements EventFacade {
@@ -37,6 +39,7 @@ class EventService implements EventFacade {
     @Override
     @Transactional
     public void addTicket(UUID publicEventId, AddTicketCommand command) {
+        log.info("Adding ticket for event: {} with command: {}", publicEventId, command);
         var eventEntity = eventRepository.findByPublicId(publicEventId)
                 .orElseThrow(() -> new NotFoundException("Event not found with id: " + publicEventId));
         var ticketToSave = new TicketEntity(
