@@ -50,6 +50,7 @@ class EventService implements EventFacade {
                 command.category(),
                 eventEntity
         );
-        ticketRepository.save(ticketToSave);
+        var savedEntity = ticketRepository.save(ticketToSave);
+        log.info("Ticket saved: {}", savedEntity);
     }
 }
