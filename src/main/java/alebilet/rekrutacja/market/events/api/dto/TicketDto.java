@@ -1,7 +1,7 @@
 package alebilet.rekrutacja.market.events.api.dto;
 
-import alebilet.rekrutacja.market.events.TicketCategory;
-import alebilet.rekrutacja.market.events.TicketStatus;
+import alebilet.rekrutacja.market.events.api.enums.TicketCategory;
+import alebilet.rekrutacja.market.events.api.enums.TicketStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;

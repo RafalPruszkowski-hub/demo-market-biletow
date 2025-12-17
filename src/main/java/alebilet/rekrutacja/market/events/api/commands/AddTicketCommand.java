@@ -1,6 +1,6 @@
 package alebilet.rekrutacja.market.events.api.commands;
 
-import alebilet.rekrutacja.market.events.TicketCategory;
+import alebilet.rekrutacja.market.events.api.enums.TicketCategory;
 
 import java.math.BigDecimal;
 

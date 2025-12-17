@@ -1,5 +1,6 @@
 package alebilet.rekrutacja.market.events;
 
+import alebilet.rekrutacja.market.events.api.enums.TicketCategory;
 import alebilet.rekrutacja.market.events.api.commands.AddTicketCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,4 +1,4 @@
-package alebilet.rekrutacja.market.events;
+package alebilet.rekrutacja.market.events.api.enums;
 
 public enum TicketCategory {
     STANDARD,

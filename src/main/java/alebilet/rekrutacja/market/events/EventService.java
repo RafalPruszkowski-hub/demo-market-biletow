@@ -2,6 +2,7 @@ package alebilet.rekrutacja.market.events;
 
 import alebilet.rekrutacja.market.NotFoundException;
 import alebilet.rekrutacja.market.events.api.EventFacade;
+import alebilet.rekrutacja.market.events.api.enums.TicketStatus;
 import alebilet.rekrutacja.market.events.api.commands.AddTicketCommand;
 import alebilet.rekrutacja.market.events.api.dto.DetailedEventDto;
 import alebilet.rekrutacja.market.events.api.dto.MinimalEventsDto;
